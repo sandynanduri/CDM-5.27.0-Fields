@@ -1,0 +1,24 @@
+Is Product an Interest Rate Product?
+│
+├─ YES → What type?
+│   │
+│   ├─ Fixed/Float Swap or FRA
+│   │   └─ Is it Zero Coupon with Known Amount?
+│   │       ├─ YES → Report Price = Known Amount
+│   │       │         CDM: tradeLot.priceQuantity.quantity.value
+│   │       │
+│   │       └─ NO → DO NOT report Price
+│   │                Report Fixed Rate (DE 16) and/or Spread (DE 19)
+│   │                CDM Fixed: interestRatePayout.rateSpecification.fixedRate.rateSchedule.price.value
+│   │                CDM Spread: interestRatePayout.rateSpecification.floatingRate.spreadSchedule.price.value
+│   │
+│   ├─ Interest Rate Option/Swaption
+│   │   └─ DO NOT report Price
+│   │       Report Strike Price (DE 60) and Option Premium (DE 64)
+│   │
+│   └─ Interest Rate Forward on Debt (Bond Forward)
+│       └─ YES → Report Price = Bond Price
+│                 CDM: tradeLot.priceQuantity.price.value
+│                      (where priceType = AssetPrice OR CashPrice)
+│
+└─ NO → Use standard price logic from previous analysis
